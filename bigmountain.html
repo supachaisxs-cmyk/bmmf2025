@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Big Mountain 2025 — Showtime Selector (6–7 Dec)</title>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 0; background: #fafafa; }
+  header { background: #222; color: #fff; padding: 16px; text-align: center; font-size: 20px; font-weight: bold; }
+  .container { padding: 16px; }
+  .day-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+  .day-btn { flex: 1; padding: 12px; background: #e1e1e1; border-radius: 6px; text-align: center; font-weight: bold; cursor: pointer; }
+  .day-btn.active { background: #ff5f5f; color: #fff; }
+  .stage-block { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .stage-name { font-size: 18px; font-weight: bold; margin-bottom: 12px; }
+  .artist-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .artist { padding: 8px 12px; border-radius: 20px; background: #eee; cursor: pointer; }
+  .artist.selected { background: #ff5f5f; color: #fff; }
+  .export-btn { margin-top: 20px; width: 100%; padding: 14px; background: #ff5f5f; color: #fff; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
+  #capture-area { padding: 16px; background: #fff; }
+</style>
+</head>
+
+<body>
+<header>Big Mountain 2025 — Showtime Selector</header>
+<div class="container">
+
+  <div class="day-selector">
+    <div class="day-btn active" onclick="switchDay(1)">Day 1 — 6 Dec</div>
+    <div class="day-btn" onclick="switchDay(2)">Day 2 — 7 Dec</div>
+  </div>
+
+  <div id="capture-area">
+
+    <div id="day1">
+      <div class="stage-block">
+        <div class="stage-name">🎪 เวทีหลัก</div>
+        <div class="artist-list">
+          <div class="artist" onclick="toggle(this)">Bodyslam</div>
+          <div class="artist" onclick="toggle(this)">Tilly Birds</div>
+          <div class="artist" onclick="toggle(this)">Ink Waruntorn</div>
+          <div class="artist" onclick="toggle(this)">Cocktail</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="day2" style="display:none;">
+      <div class="stage-block">
+        <div class="stage-name">🎪 เวทีหลัก</div>
+        <div class="artist-list">
+          <div class="artist" onclick="toggle(this)">Big Ass</div>
+          <div class="artist" onclick="toggle(this)">Paper Planes</div>
+          <div class="artist" onclick="toggle(this)">Zom Marie</div>
+          <div class="artist" onclick="toggle(this)">F.HERO</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="export-btn" onclick="exportImage()">บันทึกรูปไลน์อัปของฉัน</button>
+</div>
+
+<script>
+function toggle(el) { el.classList.toggle("selected"); }
+function switchDay(day) {
+  document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".day-btn")[day - 1].classList.add("active");
+  document.getElementById("day1").style.display = day === 1 ? "block" : "none";
+  document.getElementById("day2").style.display = day === 2 ? "block" : "none";
+}
+function exportImage() {
+  const capture = document.getElementById("capture-area");
+  html2canvas(capture).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "my-lineup.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
+</script>
+
+</body>
+</html>
