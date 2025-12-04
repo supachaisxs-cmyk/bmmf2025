@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Big Mountain 2025 — Showtime Selector</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- html2canvas -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #ff4da6;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+.header {
+    background: #111;
+    padding: 20px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+}
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+.tab {
+    padding: 15px 25px;
+    margin: 0 5px;
+    border-radius: 15px;
+    background: #444;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+.tab.active {
+    background: #ff99cc;
+    color: #000;
+    font-weight: bold;
+}
+.stage-box {
+    background: white;
+    color: black;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+    font-size: 20px;
+}
+.btn-save {
+    background: #111;
+    padding: 15px;
+    text-align: center;
+    margin: 30px 20px;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Big Mountain 2025 — Showtime Selector</div>
+
+<div class="tabs">
+    <div class="tab active" onclick="showDay(1)">Day 1 — 6 Dec</div>
+    <div class="tab" onclick="showDay(2)">Day 2 — 7 Dec</div>
+</div>
+
+<div id="content"></div>
+
+<div class="btn-save" onclick="saveImage()">บันทึกเป็นภาพ</div>
+
+<script>
+const data = {
+  1: {
+    "Mountain Stage": [
+      "19:00 — Slot Machine",
+      "20:30 — Bodyslam",
+      "22:00 — Millin"
+    ],
+    "Cow Stage": [
+      "18:00 — Tattoo Colour",
+      "19:30 — Zom Marie",
+      "21:00 — Silly Fools"
+    ]
+  },
+  2: {
+    "Main Stage": [
+      "18:00 — Cocktail",
+      "19:30 — Big Ass",
+      "21:00 — Potato"
+    ],
+    "Fun Stage": [
+      "17:00 — Polycat",
+      "19:00 — Whal & Dolph",
+      "22:00 — Three Man Down"
+    ]
+  }
+};
+
+function showDay(day) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab")[day-1].classList.add("active");
+
+  let html = "";
+  for (const stage in data[day]) {
+    html += `<div class="stage-box"><b>${stage}</b><br><br>`;
+    data[day][stage].forEach(item => html += item + "<br>");
+    html += "</div>";
+  }
+  document.getElementById("content").innerHTML = html;
+}
+
+showDay(1);
+
+function saveImage() {
+  html2canvas(document.body).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "showtime.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
+</script>
+
+</body>
+</html>
